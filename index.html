@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dana Point Properties</title>
+<meta name="description" content="A local resource on Dana Point commercial real estate by Ken Robertson. Owner-user and investment opportunities, off-market positioning, and a quarterly market snapshot.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Marcellus&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a harbor-chart band up top (depth contours, coordinates), then quiet
+   single-column reading sections on fog, with lantern amber used only for marks and links. */
+:root{
+  --bg:#f2f5f5;
+  --surface:#ffffff;
+  --ink:#10262d;
+  --muted:#52666c;
+  --line:#cdd8d9;
+  --accent:#8f5c0d;
+  --harbor:#0e2f38;
+  --harbor-ink:#eef4f3;
+  --harbor-muted:#a9c0c2;
+  --lantern:#e3a94a;
+  --display:"Marcellus","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --body:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a1b20;--surface:#10272e;--ink:#e9f0ef;--muted:#9fb3b6;--line:#25424a;
+    --accent:#e3a94a;--harbor:#123943;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0a1b20;--surface:#10272e;--ink:#e9f0ef;--muted:#9fb3b6;--line:#25424a;
+  --accent:#e3a94a;--harbor:#123943;color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--lantern);outline-offset:3px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.3rem,7vw,4.2rem);line-height:1.05;letter-spacing:.005em}
+h2{font-size:clamp(1.6rem,4.2vw,2.3rem);line-height:1.15}
+h3{font-size:1.25rem;line-height:1.25}
+p{margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+.measure{max-width:62ch}
+.eyebrow{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+
+.draftbar{background:var(--surface);border-bottom:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+.draftbar .wrap{padding-top:9px;padding-bottom:9px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.todo{border:1px dashed var(--accent);color:var(--accent);padding:1px 7px;border-radius:3px;font-size:.88em}
+
+.harbor{background:linear-gradient(90deg,rgba(9,34,41,.90) 0%,rgba(9,34,41,.78) 55%,rgba(9,34,41,.62) 100%),url(img/dana-point-harbor.jpg) center 45%/cover no-repeat,var(--harbor);color:var(--harbor-ink);position:relative;overflow:hidden}
+@media (max-width:760px){.harbor{background:linear-gradient(rgba(9,34,41,.84),rgba(9,34,41,.84)),url(img/dana-point-harbor.jpg) center 45%/cover no-repeat,var(--harbor)}}
+.portrait{width:220px;max-width:100%;aspect-ratio:1;object-fit:cover;border-radius:2px;border:1px solid var(--line)}
+.num{white-space:nowrap}
+.deals li{display:flex;flex-direction:column;gap:6px}
+.deals strong{font-weight:600}
+.card .view{border-top:1px solid var(--line);padding-top:12px}
+.card .view strong{color:var(--accent);font-weight:600}
+.harbor canvas{position:absolute;inset:0;width:100%;height:100%}
+.harbor .wrap{position:relative}
+nav{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;padding:22px 0}
+nav .brand{font-family:var(--display);font-size:1.2rem;color:var(--harbor-ink);text-decoration:none}
+nav .links{display:flex;gap:22px;flex-wrap:wrap}
+nav .links a{color:var(--harbor-muted);text-decoration:none;font-size:.95rem;font-weight:500;padding-bottom:3px;border-bottom:1px solid transparent}
+nav .links a:hover,nav .links a[aria-current="page"]{color:var(--harbor-ink);border-bottom-color:var(--lantern)}
+.hero{padding:56px 0 72px;display:flex;flex-direction:column;gap:22px}
+.hero .eyebrow{color:var(--lantern)}
+.hero p.lede{font-size:1.15rem;color:var(--harbor-ink);max-width:54ch}
+.hero p.by{color:var(--harbor-muted);font-size:.98rem}
+.btn{display:inline-block;align-self:flex-start;background:var(--lantern);color:#1b1608;text-decoration:none;font-weight:600;padding:12px 22px;border-radius:2px}
+.btn:hover{filter:brightness(1.06)}
+
+section{padding:64px 0;border-bottom:1px solid var(--line)}
+.stack{display:flex;flex-direction:column;gap:20px}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:28px 56px}
+@media (max-width:760px){.split{grid-template-columns:1fr}section{padding:48px 0}}
+.muted{color:var(--muted)}
+ul.marks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+ul.marks li{padding:15px 0 15px 26px;border-top:1px solid var(--line);position:relative}
+ul.marks li:last-child{border-bottom:1px solid var(--line)}
+ul.marks li::before{content:"";position:absolute;left:0;top:1.55em;width:14px;height:2px;background:var(--accent)}
+.card{background:var(--surface);border:1px solid var(--line);padding:26px;display:flex;flex-direction:column;gap:12px}
+.contact dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 20px}
+.contact dt{color:var(--muted);font-size:.9rem}
+.contact dd{margin:0;overflow-wrap:anywhere}
+
+.tablebox{overflow-x:auto;border:1px solid var(--line);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:820px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--line);font-size:.95rem}
+th{font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+td.empty{color:var(--accent)}
+.districts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.src{font-size:.82rem;color:var(--muted)}
+footer{padding:36px 0 56px;font-size:.88rem;color:var(--muted)}
+footer .wrap{display:flex;flex-direction:column;gap:8px}
+[hidden]{display:none !important}
+</style>
+</head>
+<body>
+
+
+
+<header class="harbor" id="top">
+  <canvas id="chart" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <nav aria-label="Main">
+      <a class="brand" href="#top">Dana Point Properties</a>
+      <div class="links">
+        <a href="#top" data-nav="home">Home</a>
+        <a href="#snapshot" data-nav="snapshot">Market Snapshot</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <div class="hero" id="hero-home">
+      <p class="eyebrow">33.47° N, 117.70° W · Dana Point, California</p>
+      <h1>Dana Point, Thoughtfully Positioned</h1>
+      <p class="lede">Owner-user and investment opportunities, off-market positioning, and strategic acquisitions along the Dana Point coast.</p>
+      <p class="by">A local resource by Ken Robertson · Sierra Creek Ventures · Laguna Beach Properties</p>
+      <a class="btn" href="#contact">Get in touch</a>
+    </div>
+
+    <div class="hero" id="hero-snapshot" hidden>
+      <p class="eyebrow">Market Snapshot · Q4 2026</p>
+      <h1>What is trading in Dana Point, and why</h1>
+      <p class="lede">A short quarterly read on commercial, retail and mixed-use property in Dana Point, written for owners.</p>
+      <p class="by">Updated each quarter by Ken Robertson · Sierra Creek Ventures · Laguna Beach Properties</p>
+    </div>
+  </div>
+</header>
+
+<main id="view-home">
+  <section>
+    <div class="wrap split">
+      <div class="stack">
+        <p class="eyebrow muted">How I work</p>
+        <h2>A sounding board first</h2>
+      </div>
+      <div class="stack">
+        <ul class="marks">
+          <li>Finding owner-user opportunities that aren't immediately obvious</li>
+          <li>Handling off-market situations discreetly</li>
+          <li>Positioning properties so the market can validate their value</li>
+          <li>Serving as a sounding board for key decisions</li>
+        </ul>
+        <p class="measure muted">If you own property in Dana Point and want a second opinion, I'm glad to give one. No agenda here.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap split">
+      <div class="stack">
+        <p class="eyebrow muted">The market</p>
+        <h2>A data-driven view of Dana Point real estate</h2>
+      </div>
+      <div class="stack">
+        <p class="measure">Dana Point is a very local market. Small changes in inventory, demand and timing can move value more than any regional trend. I pair current market data with what I see on the ground:</p>
+        <ul class="marks">
+          <li>What is actually selling, and why</li>
+          <li>Where prices are holding and where they are adjusting</li>
+          <li>How off-market opportunities are changing</li>
+          <li>Differences between neighborhoods, streets and individual buildings</li>
+        </ul>
+        <p><a href="#snapshot">Read the Q4 2026 Market Snapshot</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="approach">
+    <div class="wrap split">
+      <div class="stack">
+        <p class="eyebrow muted">Approach</p>
+        <h2>Ken Robertson</h2>
+        <img class="portrait" src="img/ken-robertson.jpg" alt="Ken Robertson" width="348" height="348">
+      </div>
+      <div class="stack measure">
+        <p>I'm a commercial real estate advisor focused on coastal properties and long-term ownership. I help private owners and families evaluate a sale, understand value and spot opportunities.</p>
+        <p>My background spans brokerage, development and institutional investment management. As Central Region President at KBS Realty Advisors I oversaw more than $5 billion in commercial real estate investments. In 2018 I shifted to advising private owners directly.</p>
+        <p>I'm based in Laguna Beach and work along the Southern California coast with commercial, multifamily and mixed-use owners, many of whom have strong personal ties to their properties.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap split">
+      <div class="stack">
+        <p class="eyebrow muted">Contact</p>
+        <h2>Have a property or an opportunity in mind?</h2>
+        <p class="muted measure">Call or email. I'm happy to be a sounding board.</p>
+      </div>
+      <div class="card">
+        <h3>Ken Robertson</h3>
+        <dl>
+          <dt>Firm</dt><dd>Sierra Creek Ventures · Laguna Beach Properties</dd>
+          <dt>Brokerage</dt><dd>Laguna Beach Properties</dd>
+          <dt>Phone</dt><dd><a href="tel:+19493541510">(949) 354-1510</a></dd>
+          <dt>Email</dt><dd><a href="mailto:ken@sierracreekventures.com">ken@sierracreekventures.com</a></dd>
+          <dt>License</dt><dd>DRE #01136936</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+</main>
+
+<main id="view-snapshot" hidden>
+  <section>
+    <div class="wrap stack">
+      <p class="eyebrow muted">Just a data point</p>
+      <h2>The quarter in one paragraph</h2>
+      <p class="measure">Dana Point is short on space and short on sellers. Retail vacancy sits at 2.3% and office is under 1%, yet only two retail buildings changed hands in the past twelve months and no office buildings did. Multifamily is where the activity is: six sales totaling $21 million, with vacancy down to 3.1% from roughly 5% a year ago.</p>
+      <p class="measure">Dana Point has been a market to watch for the last ten years. It has benefited from real momentum, a more favorable development climate than its neighbors, and big changes at the harbor and in the Lantern District.</p>
+      <p class="measure">Values have appreciated, but the current climate likely creates some unique opportunities for long-term property owners, with good returns compared with the complexity of Laguna Beach or the pricing of Newport Beach. It's a market that seems to be doing the right things to set itself up for success over the long run.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap stack">
+      <p class="eyebrow muted">By property type</p>
+      <h2>What sold and what it's asking</h2>
+      <div class="tablebox">
+        <table>
+          <thead><tr><th>Type</th><th>Inventory</th><th>Vacancy</th><th>Asking rent</th><th>Market price</th><th>Cap rate</th><th>Sales, 12 mo.</th></tr></thead>
+          <tbody>
+            <tr><td>Retail</td><td class="num">1.1M SF · 137 bldgs</td><td>2.3%</td><td class="num">$3.88 / SF / mo</td><td class="num">$581 / SF</td><td>5.3%</td><td class="num">2 sales · $5.8M</td></tr>
+            <tr><td>Office</td><td class="num">586K SF · 95 bldgs</td><td>0.8%</td><td class="num">$3.15 / SF / mo</td><td class="num">$339 / SF</td><td>7.4%</td><td>None</td></tr>
+            <tr><td>Multifamily</td><td class="num">3,437 units · 218 bldgs</td><td>3.1%</td><td class="num">$3,637 / unit / mo</td><td class="num">$517K / unit</td><td>4.4%</td><td class="num">6 sales · $21M</td></tr>
+            <tr><td>Industrial</td><td class="num">22.6K SF · 5 bldgs</td><td>0%</td><td class="num">$2.31 / SF / mo</td><td class="num">$540 / SF</td><td>5.8%</td><td>None</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">Source: CoStar, City of Dana Point, as of November 14, 2026. Market price and cap rate are CoStar's modeled market figures, not averages of closed sales.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap stack">
+      <p class="eyebrow muted">By district</p>
+      <h2>Street by street</h2>
+      <div class="districts">
+        <div class="card">
+          <h3>The Harbor</h3>
+          <p>Dana Point Harbor is undergoing a major transformation through a public-private partnership with Dana Point Harbor Partners. The redevelopment includes new retail, restaurants, marina improvements, and two planned hotels. The hotels are currently stalled over a county lease vote.</p>
+          <p>For nearby property owners, the harbor's reinvention could reshape visitor activity, tenant demand, and investment expectations throughout Dana Point.</p>
+          <p class="view"><strong>My perspective:</strong> The opportunity extends beyond the harbor itself. Watch how new hospitality and retail investment influences surrounding commercial properties.</p>
+        </div>
+        <div class="card">
+          <h3>Lantern District</h3>
+          <p>The Lantern District is Dana Point's downtown commercial heart, centered along Del Prado Avenue and Pacific Coast Highway. Its mix of restaurants, boutiques, offices, and neighborhood businesses creates a distinctive, walkable coastal environment.</p>
+          <p>For property owners, the district offers opportunities tied to pedestrian activity, tenant mix, and the continued evolution of downtown.</p>
+          <p class="view"><strong>My perspective:</strong> The most interesting question is how Dana Point balances its small-town character with growing demand for dining, retail, and hospitality.</p>
+        </div>
+        <div class="card">
+          <h3>Doheny Village</h3>
+          <p>Doheny Village is one of Dana Point's most interesting areas for long-term reinvestment. Historically a mix of light industrial, service businesses, and commercial properties, the district has a different character from the city's coastal retail centers.</p>
+          <p>City planning initiatives have created a framework for revitalization, potentially opening the door to new uses and redevelopment opportunities.</p>
+          <p class="view"><strong>My perspective:</strong> Watch the transition carefully. Zoning, infrastructure, parcel configuration, and development economics will determine which properties can realistically benefit.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap split">
+      <div class="stack">
+        <p class="eyebrow muted">Hospitality</p>
+        <h2>Three hotel stories every owner should know</h2>
+      </div>
+      <div class="stack">
+        <ul class="marks deals">
+          <li><strong>Ritz-Carlton, Laguna Niguel sells for $600 million</strong>
+            <span>KSL Capital Partners bought the Dana Point resort from Strategic Hotels &amp; Resorts at about $1.6 million per room, the largest hotel sale in Orange County history.</span>
+            <span class="src">Orange County Business Journal, November 9, 2026</span></li>
+          <li><strong>Laguna Cliffs Marriott becomes a JW Marriott</strong>
+            <span>A renovation of roughly $60 million will turn the 371-room hotel into The Ocean Cliffs at Dana Point, with completion targeted for early 2027. The owners chose to put Dana Point in the name.</span>
+            <span class="src">Orange County Business Journal, October 5, 2026</span></li>
+          <li><strong>The two harbor hotels are stalled</strong>
+            <span>On August 25 the county Board of Supervisors split 2-2 on the lease change R.D. Olson needs to finance the $225 million, two-hotel project. The developer's fallback is renovating the existing Marina Inn.</span>
+            <span class="src">Orange County Business Journal, August 31, 2026</span></li>
+        </ul>
+        <p class="measure">Something I'm seeing: capital is paying record prices for hospitality that already exists in Dana Point, while new rooms at the harbor remain hard to get built.</p>
+        <p class="measure">It is very difficult to develop today. That keeps capital focused on existing properties, which often trade below what it would cost to build new and offer a better risk-adjusted return.</p>
+        <p class="measure muted">Worth noting: The Wall Street Journal reported on October 5, 2026 that rising interest rates have buyers across the country asking sellers to renegotiate agreed prices before closing. Higher rates raise the bar for new development and for acquisitions alike.</p>
+        <p class="measure">In Dana Point, the numbers above answer the question of who has leverage. With retail vacancy at 2.3% and office under 1%, owners here face little pressure to concede on price.</p>
+        <p class="measure muted">Curious how this compares with what you're seeing? <a href="#contact">Get in touch.</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Sierra Creek Ventures · Laguna Beach Properties</span>
+    <span>Ken Robertson, DRE #01136936. Brokerage services through Laguna Beach Properties.</span>
+    <span>© 2026 Dana Point Properties</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var home=document.getElementById('view-home'), snap=document.getElementById('view-snapshot');
+  var heroHome=document.getElementById('hero-home'), heroSnap=document.getElementById('hero-snapshot');
+  var c=document.getElementById('chart');
+
+  function draw(){
+    try{
+      var r=c.getBoundingClientRect(); if(!r.width||!r.height) return;
+      var d=window.devicePixelRatio||1; c.width=r.width*d; c.height=r.height*d;
+      var x=c.getContext('2d'); x.setTransform(d,0,0,d,0,0); x.clearRect(0,0,r.width,r.height); x.lineWidth=1;
+      for(var i=0;i<15;i++){
+        x.beginPath(); x.strokeStyle='rgba(238,244,243,'+(0.04+i*0.011)+')';
+        for(var px=0;px<=r.width+8;px+=8){
+          var y=r.height*(0.12+i*0.065)+Math.sin(px/150+i*0.55)*13*(1+i*0.11)+Math.sin(px/57+i)*4;
+          if(px===0) x.moveTo(px,y); else x.lineTo(px,y);
+        }
+        x.stroke();
+      }
+    }catch(e){}
+  }
+
+  function route(){
+    var h=(location.hash||'').replace('#','');
+    var isSnap=(h==='snapshot');
+    snap.hidden=!isSnap; home.hidden=isSnap;
+    heroSnap.hidden=!isSnap; heroHome.hidden=isSnap;
+    document.querySelectorAll('[data-nav]').forEach(function(a){
+      if(a.getAttribute('data-nav')===(isSnap?'snapshot':'home')) a.setAttribute('aria-current','page');
+      else a.removeAttribute('aria-current');
+    });
+    draw();
+    if(isSnap){ window.scrollTo(0,0); }
+    else if(h){ var el=document.getElementById(h); if(el) el.scrollIntoView(); }
+  }
+  window.addEventListener('hashchange',route);
+  window.addEventListener('resize',draw);
+  route();
+})();
+</script>
+</body>
+</html>
