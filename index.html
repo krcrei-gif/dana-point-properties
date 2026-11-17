@@ -17,6 +17,12 @@
 <meta property="og:image:alt" content="Aerial view of Dana Point Harbor with the words Dana Point Properties">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://danapointproperties.com/img/share-preview.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0e2f38">
+<link rel="preload" as="image" href="/img/dana-point-harbor.webp" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Marcellus&display=swap" rel="stylesheet">
@@ -67,8 +73,8 @@ p{margin:0}
 .draftbar .wrap{padding-top:9px;padding-bottom:9px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .todo{border:1px dashed var(--accent);color:var(--accent);padding:1px 7px;border-radius:3px;font-size:.88em}
 
-.harbor{background:linear-gradient(90deg,rgba(9,34,41,.90) 0%,rgba(9,34,41,.78) 55%,rgba(9,34,41,.62) 100%),url(img/dana-point-harbor.jpg) center 45%/cover no-repeat,var(--harbor);color:var(--harbor-ink);position:relative;overflow:hidden}
-@media (max-width:760px){.harbor{background:linear-gradient(rgba(9,34,41,.84),rgba(9,34,41,.84)),url(img/dana-point-harbor.jpg) center 45%/cover no-repeat,var(--harbor)}}
+.harbor{background:linear-gradient(90deg,rgba(9,34,41,.90) 0%,rgba(9,34,41,.78) 55%,rgba(9,34,41,.62) 100%),image-set(url(img/dana-point-harbor.webp) type("image/webp"),url(img/dana-point-harbor.jpg) type("image/jpeg")) center 45%/cover no-repeat,var(--harbor);color:var(--harbor-ink);position:relative;overflow:hidden}
+@media (max-width:760px){.harbor{background:linear-gradient(rgba(9,34,41,.84),rgba(9,34,41,.84)),image-set(url(img/dana-point-harbor.webp) type("image/webp"),url(img/dana-point-harbor.jpg) type("image/jpeg")) center 45%/cover no-repeat,var(--harbor)}}
 .portrait{width:220px;max-width:100%;aspect-ratio:1;object-fit:cover;border-radius:2px;border:1px solid var(--line)}
 .num{white-space:nowrap}
 .deals li{display:flex;flex-direction:column;gap:6px}
@@ -192,7 +198,7 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
       <div class="stack">
         <p class="eyebrow muted">Approach</p>
         <h2>Ken Robertson</h2>
-        <img class="portrait" src="img/ken-robertson.jpg" alt="Ken Robertson" width="348" height="348">
+        <img class="portrait" src="img/ken-robertson.jpg" loading="lazy" decoding="async" alt="Ken Robertson" width="348" height="348">
       </div>
       <div class="stack measure">
         <p>I'm a commercial real estate advisor focused on coastal properties and long-term ownership. I help private owners and families evaluate a sale, understand value and spot opportunities.</p>
